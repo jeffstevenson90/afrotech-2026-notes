@@ -145,9 +145,6 @@ footer{max-width:1180px;margin:0 auto;padding:0 24px 40px;color:var(--muted);fon
       <h1>AfroTech 2026: Notes &amp; Key Takeaways</h1>
       <p class="sub">What I learned while at AfroTech, organized for our applied analytics team to help lead in AI transformation. Click any session tag to see everything that session contributed.</p>
     </div>
-    <div class="brands" aria-label="AfroTech and The Hartford">
-      <span class="wm wm-a">AfroTech</span><span class="xx" aria-hidden="true">×</span><span class="wm wm-h">The Hartford</span>
-    </div>
   </div>
 </header>
 
@@ -159,7 +156,7 @@ footer{max-width:1180px;margin:0 auto;padding:0 24px 40px;color:var(--muted);fon
       <div class="field"><label for="fth">Theme</label><select id="fth"><option value="">All themes</option></select></div>
       <button class="btn" id="copy" type="button">Copy this section</button>
       <button type="button" class="btn hidden" id="fclear">Clear filters</button>
-      <p class="hint">Filters narrow every page. On the overview they pull matching insights from all seven questions into one view.</p>
+      <p class="hint">Filters narrow every page. On the overview they pull matching insights from every section into one view.</p>
     </div>
     <div id="view"></div>
   </main>
@@ -343,7 +340,7 @@ function renderStats(){
 }
 function renderNav(cur){
   const items = [{id:"overview",n:"·",t:"Overview"}, {id:"about",n:"·",t:"About AfroTech"}, ...SECTIONS, {id:"sessions",n:"·",t:"All sessions"}];
-  $("#nav").innerHTML = items.map(s=>`<button type="button" data-v="${s.id}" aria-current="${s.id===cur}"><span class="n">${s.n}</span>${esc(s.t)}</button>`).join("");
+  $("#nav").innerHTML = items.map(s=>`<button type="button" data-v="${s.id}" aria-current="${s.id===cur}">${esc(s.t)}</button>`).join("");
 }
 
 function cards(items){
@@ -375,8 +372,8 @@ function overview(){
   <div class="answer"><b>Bottom line for BI</b>AI rewards teams with clean, governed data and people who can frame problems, judge output and redesign work. Start with one measured pilot, keep humans accountable, and grow the team's roles rather than waiting for the tools to settle.</div>
   <div class="bars" role="list">${rows.map(([k,v])=>`<div class="bar" role="listitem"><button type="button" class="linkish" data-t="${k}">${THEMES[k]}</button><div class="track"><div class="fill" style="width:${(v/max*100).toFixed(0)}%"></div></div><span class="v">${v}</span></div>`).join("")}</div>
   <h3 class="sub3">Act now</h3>${cards(top)}
-  <h3 class="sub3">Jump to a question</h3>
-  <div class="grid">${SECTIONS.map(s=>`<button type="button" class="card" data-v="${s.id}" style="text-align:left"><span class="eyebrow" style="margin:0">Question ${s.n}</span><h3>${esc(s.h)}</h3><p style="color:var(--muted)">${esc(s.a.split(". ")[0])}.</p></button>`).join("")}</div>`;
+  <h3 class="sub3">Jump to a section</h3>
+  <div class="grid">${SECTIONS.map(s=>`<button type="button" class="card" data-v="${s.id}" style="text-align:left"><h3>${esc(s.h)}</h3><p style="color:var(--muted)">${esc(s.a.split(". ")[0])}.</p></button>`).join("")}</div>`;
 }
 function about(){
   const tracks = [
@@ -413,10 +410,10 @@ function results(){
     if(sec.id==="quotes"){ n = QUOTES.filter(q=>match(q.q,[q.s],q.th)).length; if(n) html = quotes(); }
     else if(sec.id==="datacenters"){ n = [...DC.concerns,...DC.excite,...DC.fixes].filter(i=>match(i.b,i.s,i.th)).length; if(n) html = dc(); }
     else { n = sec.items.filter(i=>match(i.h+" "+i.b,i.s,i.th)).length; if(n) html = cards(sec.items); }
-    if(n){ total += n; body += `<h3 class="sub3"><button type="button" class="linkish" data-v="${sec.id}">${sec.n}. ${esc(sec.t)}</button> <span class="count">${n}</span></h3>${html}`; }
+    if(n){ total += n; body += `<h3 class="sub3"><button type="button" class="linkish" data-v="${sec.id}">${esc(sec.t)}</button> <span class="count">${n}</span></h3>${html}`; }
   });
   const who = filter ? `<p class="lede">${esc(S[filter].w)} · <button type="button" class="linkish" data-v="notes-${filter}">Read the full session notes</button></p>` : "";
-  return `<p class="eyebrow">Filtered view</p><h2>${esc(label)}</h2>${who}<div class="answer"><b>${total} matching insight${total===1?"":"s"}</b>Everything across all seven questions that matches your filters, grouped by question. Pick a question on the left to see just that one, or clear the filters to return to the overview.</div>${body||'<p class="empty">Nothing matches both filters. Try clearing one.</p>'}`;
+  return `<p class="eyebrow">Filtered view</p><h2>${esc(label)}</h2>${who}<div class="answer"><b>${total} matching insight${total===1?"":"s"}</b>Everything across all sections that matches your filters, grouped by section. Pick a section on the left to see just that one, or clear the filters to return to the overview.</div>${body||'<p class="empty">Nothing matches both filters. Try clearing one.</p>'}`;
 }
 function notesView(k){
   const v = S[k];
@@ -444,7 +441,7 @@ function render(){
   else if(v==="about") html = about();
   else {
     const s = SECTIONS.find(x=>x.id===v);
-    html = `<p class="eyebrow">Question ${s.n}</p><h2>${esc(s.h)}</h2><div class="answer"><b>Short answer</b>${esc(s.a)}</div>`;
+    html = `<h2>${esc(s.h)}</h2><div class="answer"><b>Short answer</b>${esc(s.a)}</div>`;
     html += v==="quotes" ? quotes() : v==="datacenters" ? dc() : cards(s.items);
   }
   $("#view").innerHTML = html;
