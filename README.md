@@ -4,5 +4,4 @@ An interactive page summarizing 18 sessions from AfroTech 2026 (Houston, Nov 2â€
 
 - `index.html`: the full page (self-contained; open it in any browser)
 - `team.jpg`, `sign.jpg`: trip photos used on the overview
-
-Session summaries live in the AfroTech folder on Google Drive.
+- `notes/`: full notes for each session in Markdown. Edit a file, then run `python3 build.py` to update the notes embedded in `index.html`.
