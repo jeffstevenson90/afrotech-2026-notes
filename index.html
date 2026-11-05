@@ -61,6 +61,24 @@ h1{font-family:var(--display);font-size:clamp(28px,4vw,40px);line-height:1.1;mar
 .notes > p:first-child{color:var(--muted);font-size:14px;border-bottom:1px solid var(--line);padding-bottom:12px}
 .skills{margin:0;padding-left:22px;display:flex;flex-direction:column;gap:8px;max-width:72ch}
 td .chips{padding-top:0}
+.kv{border-top:1px solid var(--line);padding-top:8px;display:flex;flex-direction:column;gap:3px}
+.kv span{font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.kv.try span{color:var(--accent)}
+.kv p{font-size:14px}
+.kv ul{margin:0;padding-left:18px;font-size:14px;display:flex;flex-direction:column;gap:4px}
+.actions{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px}
+.pipe{list-style:none;margin:0 0 16px;padding:0;display:flex;flex-direction:column;gap:0;max-width:820px}
+.step{display:grid;grid-template-columns:44px 1fr;gap:14px;position:relative;padding-bottom:18px}
+.step:not(:last-child)::before{content:"";position:absolute;left:21px;top:44px;bottom:0;width:2px;background:var(--line)}
+.step .dot{width:44px;height:44px;border-radius:50%;background:var(--accent);color:#fff;display:grid;place-items:center;font-family:var(--display);font-weight:700;font-size:18px}
+:root[data-theme="dark"] .step .dot{color:#111}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .step .dot{color:#111}}
+.step .sbody{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 18px;display:flex;flex-direction:column;gap:8px}
+.step .sbody h3{margin:0;font-size:17px}
+.step .sbody p{margin:0}
+.step.dim{opacity:.4}
+.ba{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+.ba ol{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px;font-size:15px}
 .count{font-family:var(--body);font-size:13px;font-weight:600;background:var(--accent-soft);color:var(--accent);padding:2px 8px;border-radius:99px;vertical-align:middle}
 .tools .hint{flex-basis:100%;font-size:13px;color:var(--muted);margin:-4px 0 0}
 .srcs a{color:var(--muted)}
@@ -156,7 +174,6 @@ footer{max-width:1180px;margin:0 auto;padding:0 24px 40px;color:var(--muted);fon
     <div class="tools">
       <div class="field"><label for="fsess">Session</label><select id="fsess"><option value="">All sessions</option></select></div>
       <div class="field"><label for="fth">Theme</label><select id="fth"><option value="">All themes</option></select></div>
-      <button class="btn" id="copy" type="button">Copy this section</button>
       <button type="button" class="btn hidden" id="fclear">Clear filters</button>
       <p class="hint">Filters narrow every page. On the overview they pull matching insights from every section into one view.</p>
     </div>
@@ -197,7 +214,7 @@ const THEMES = {
 
 const SECTIONS = [
 {id:"future", n:"1", t:"Future of work", h:"What does the future of work look like in the age of AI?",
- a:"Work shifts from doing tasks to directing and judging them. Roles merge into end-to-end ownership, every professional manages AI agents, and the biggest gains go to teams that redesign the work itself instead of adding AI on top.",
+ a:"AI will take over more of the doing: pulling data, building reports, drafting decks. Our work shifts toward deciding what is worth doing and checking that it is right. Roles get wider, everyone works alongside AI tools, and the biggest gains come from rethinking how work flows, not from adding AI to today's steps. Below is what that looks like in practice, then what we heard.",
  items:[
   {h:"Roles collapse into end-to-end ownership",b:"Workday had one person use AI to cover PM, BA, architect and QA roles: 3–5x faster delivery with better quality, driven by ownership and fewer handoffs. LinkedIn's PMs now label data, build LLM classifiers and ship code.",s:["infra","linkedin","ge","capone"],th:["converge"]},
   {h:"Everyone becomes a manager of agents",b:"Capital One's 2030 vision: \"everyone is a CEO of agents.\" The scarce skill is directing agents toward a goal and checking they did what they should.",s:["capone","agents"],th:["judgment"]},
@@ -209,45 +226,43 @@ const SECTIONS = [
   {h:"The future is not written yet",b:"The AI rules, the companies and the money are still being decided. \"Don't wait your turn\": be creators, not just users.",s:["founder","infra","pressley"],th:["people"]}
  ]},
 {id:"skills", n:"2", t:"Skills to lean into", h:"What are the most important skills I should lean into?",
- a:"Four skills came up again and again: learning agility, decision quality, evaluation of AI output, and redesigning work. Underneath them sit data fluency and the human skills AI can't replace.",
+ a:"Eight skills came up again and again. Each card explains the skill in plain terms, shows where it came up at AfroTech, and gives one small way to start practicing it this month.",
  items:[
-  {h:"Learning agility and unlearning",b:"Stay curious and open to a better way. \"A best practice is simply the way we learned to do something in yesterday's constraints.\"",s:["ge","founder","career"],th:["people"]},
-  {h:"Decision quality and problem framing",b:"About 80% of AI projects fail because the problem or success metric was wrong, not the tech. Framing the question is the job.",s:["llm","ge"],th:["judgment"]},
-  {h:"Evaluating AI output",b:"Define good / acceptable / never-ship bars, test edge cases, calibrate LLM judges against human graders, and check accuracy by subgroup.",s:["llm","gebru","agentic"],th:["judgment","account"]},
-  {h:"Redesigning work",b:"GE's CHRO called it the most important leadership skill of the future: understand the work underneath and rebuild it around what's now possible.",s:["ge","agents"],th:["redesign"]},
-  {h:"Data curation and literacy",b:"Models are commodities; curated, well-governed data is the differentiator. Capital One urged technologists to become data specialists.",s:["capone","gebru","edge"],th:["data"]},
-  {h:"Stretching across roles",b:"\"Switch hitters\" from other fields win now: they bring outside perspective and use AI to cover product, design and build work.",s:["linkedin","infra"],th:["converge"]},
-  {h:"Human connection and composure",b:"Compassion, resilience and calm under pressure stay human. Ask \"do you want me to listen or advise?\" before fixing.",s:["ge","bet","neuro"],th:["people"]},
-  {h:"Visibility and sponsorship",b:"Build skill, show proof, be visible. Sponsors advocate for you in rooms you're not in; consistent posting and showing up creates opportunities.",s:["career","linkedin","bet","founder"],th:["people"]}
+  {h:"Learning agility",b:"Keep learning as tools change, and be willing to drop habits that made sense before AI.",conf:"GE HealthCare's CHRO: \"A best practice is simply the way we learned to do something in yesterday's constraints.\" GE also cited an estimate that about 40% of core skills will change by 2030.",try:"Block 30 minutes a week to try an AI tool on a real task, and share one thing that worked (or didn't) at team meeting.",s:["ge","founder","career"],th:["people"]},
+  {h:"Problem framing",b:"Before building anything, get clear on the decision it supports and how we'll know it worked.",conf:"About 80% of AI projects fail because the problem or success metric was wrong, not the technology (What's Next After LLM).",try:"Start every request with two lines: \"This helps [who] decide [what]\" and \"We'll know it worked if [measure].\"",s:["llm","ge"],th:["judgment"]},
+  {h:"Checking AI's work",b:"Review AI's answers the way a good reviewer would: what did it assume, what's missing, and does it hold up for every group?",conf:"McDonald's drive-thru AI was 85% accurate overall but failed on edge cases that went viral. Gender Shades showed strong overall accuracy hiding failures for darker-skinned women.",try:"When AI drafts a query or analysis, ask it to list its assumptions, then spot-check the results for two or three customer segments.",s:["llm","gebru","agentic"],th:["judgment","account"]},
+  {h:"Redesigning work",b:"Rethink a process from scratch instead of adding AI on top of the old steps.",conf:"GE HealthCare called this the most important leadership skill of the future: adding AI to an old process gives modest gains, while rethinking it is transformational.",try:"Pick one recurring task you own, list its steps, and mark which ones AI could draft, which need your judgment, and which could disappear.",s:["ge","agents"],th:["redesign"]},
+  {h:"Knowing our data",b:"Know where our data comes from, what it means and where it's weak, and write it down so people and AI can use it.",conf:"Capital One: AI often gives wrong answers because it lacks context, not because the model is weak. Dr. Gebru: if you can't say what's in the soup, don't serve it.",try:"Document the definitions and quirks of the datasets you use most, the things only you know today.",s:["capone","gebru","edge"],th:["data"]},
+  {h:"Owning work end to end",b:"Take a request from first conversation to delivered and tested result, using AI to fill the gaps.",conf:"At Workday, one person using AI to cover PM, analyst, architect and QA work delivered 3–5x faster. LinkedIn's product managers now label data and ship code themselves.",try:"On your next project, take one step you'd normally hand off (testing, a first-draft spec) and do it yourself with AI's help.",s:["linkedin","infra"],th:["converge"]},
+  {h:"Human connection",b:"Listen well, stay calm when things break, and build trust with the people we support.",conf:"GE's CHRO named compassion and resilience the most lasting skills. BET's marketing leader said composure under pressure is practiced, not innate.",try:"When a stakeholder brings a problem, ask \"Do you want me to listen, or help solve it?\" before jumping to a fix.",s:["ge","bet","neuro"],th:["people"]},
+  {h:"Visibility and sponsorship",b:"Make your work visible and build relationships with people who will speak up for you.",conf:"A VP sponsor got one speaker promoted 7 months into a role. LinkedIn's team said people who share and comment are far more likely to find opportunities.",try:"Share one finding or win per month beyond our team, and tell me what you want to grow into so I can advocate for you.",s:["career","linkedin","bet","founder"],th:["people"]}
  ]},
 {id:"workflow", n:"3", t:"Bringing AI into the team", h:"What's the most effective way to incorporate AI into my daily workflow and my team?",
- a:"Pick one painful recurring workflow, map it, give the agent a charter and three human owners, measure the result, and expand only what works. Around that, give people access, permission to experiment and leaders who visibly use AI themselves.",
+ a:"Treat it as a pipeline, not a purchase. The teams getting real value set up the basics, pick one workflow, give the AI a clear job and human owners, test it quietly, then decide with data. Here are the six steps, with what to watch for at each.",
  items:[
-  {h:"Start from a process, not a tool",b:"The MIT NANDA study found 95% of enterprise AI efforts weren't returning value, largely because companies bought tools without a target. Pick a bottleneck first.",s:["agents","llm"],th:["pilot"]},
-  {h:"Map it, then write a charter",b:"Talk the process through with an AI assistant and have it draw a Mermaid flowchart. Define what the agent does, its boundaries, and when it escalates.",s:["agents"],th:["pilot","redesign"]},
-  {h:"Name three owners",b:"Process owner (knows the work), review lead (approves output), system owner (configures and fixes it). \"The agent did it\" is never an answer.",s:["agents","gebru"],th:["account","judgment"]},
-  {h:"Let people experiment freely",b:"Workday gave every employee an AI assistant in early 2023 with no output targets. The best use cases came from the ground up. Approvals should take hours, not 15 sign-offs.",s:["infra","ge"],th:["people"]},
-  {h:"Leaders model it",b:"You can't tell a team to use AI if you don't. Share role-specific examples; run communities of practice.",s:["ge"],th:["people"]},
-  {h:"Exact where it must be, generative where it helps",b:"Financial figures need rule-based, repeatable logic. Route only messy, ambiguous cases to AI, and have it list the assumptions it made.",s:["infra","agentic","bet"],th:["judgment"]},
-  {h:"Guard the data",b:"Enterprise accounts only, no personal AI accounts. Agents inherit the access of the person they work for.",s:["agents","edge","pgx"],th:["account"]},
-  {h:"Personal productivity patterns",b:"Use AI to break tasks into steps under 10 minutes, estimate time with a buffer, and summarize meetings. Making this normal for everyone helps neurodivergent teammates without disclosure.",s:["neuro"],th:["people"]},
-  {h:"Compound small wins",b:"1% better every day is about 37x in a year. Not every improvement needs to be a big bet.",s:["ge"],th:["pilot"]}
- ]},
+  {h:"Set up the basics",b:"Give people approved tools, room to experiment, and leaders who visibly use AI themselves.",think:["Approved enterprise tools only; no personal AI accounts","No output targets at first: Workday's best use cases came from free experimenting","Leaders go first: you can't ask the team to use AI if you don't"],s:["infra","ge","agents"],th:["people"]},
+  {h:"Pick one workflow",b:"Start from a recurring, painful process that's easy to check, not from a tool. One good pilot beats ten experiments.",think:["MIT NANDA found 95% of enterprise AI efforts weren't returning value, mostly because there was no target","Good fits: messy inputs, repetitive drafting, rules-heavy work (BET started with event seating)","Poor fits: exact financial figures and predictable pipelines; about 80% of workflows don't need an agent"],s:["agents","llm","bet","agentic"],th:["pilot"]},
+  {h:"Map it and write a charter",b:"Talk the process through with an AI assistant and have it draw a flowchart. Then write down the AI's job, its limits, and when it hands off to a person.",think:["Which steps stay rule-based, and which can AI draft?","Ask the AI to list every assumption it makes","Define \"good,\" \"acceptable\" and \"never ship\" before you build"],s:["agents","llm","infra"],th:["redesign","judgment"]},
+  {h:"Name owners and guardrails",b:"Give every AI workflow three people: a process owner who knows the work, a review lead who checks output, and a system owner who configures it.",think:["\"The agent did it\" is never an acceptable answer","The AI gets only the access its owner has, nothing more","Flag sensitive data and decide how it's handled up front"],s:["agents","gebru","agentic"],th:["account"]},
+  {h:"Pilot quietly and measure",b:"Run it alongside the current process first, compare results against a baseline, and fix what you find.",think:["Measure time saved, error rate and rework, not just \"it works\"","Test edge cases on purpose; averages hide failures","Track cost per request so there are no surprises"],s:["llm","agentic","edge"],th:["pilot","cost"]},
+  {h:"Decide, share and scale",b:"Make a clear go, improve or stop call. Share what worked with role-specific examples, then pick the next workflow.",think:["Small wins compound: 1% better every day is about 37x in a year","Share examples in team meetings so ideas spread","Keep humans in the loop for anything that affects customers"],s:["ge","infra","squire"],th:["pilot","people"]}
+ ],
+ note:"For your own day-to-day: use AI to break big tasks into 10-minute steps, estimate how long work will take (add a buffer), and summarize meetings. Making this normal for everyone helps teammates who think differently without anyone having to ask (Neurospicy Minds session)."},
 {id:"quotes", n:"4", t:"Quotes", h:"Quotes that resonated",
- a:"Star the ones that land for you; your stars are remembered in this browser. Use Copy this section to paste the starred ones into a team update.",
+ a:"Star the ones that land for you; your stars are remembered in this browser.",
  items:[]},
 {id:"tech", n:"5", t:"Emerging technology", h:"What new and exciting technologies are emerging?",
- a:"The stack is moving toward agents that use your existing systems as tools, small models that run locally, and automated evaluation. Most of it is usable today.",
+ a:"You don't need to be an engineer to benefit from these. Each card says what the technology is in plain terms and how our team might think about it. Most of it is usable today; a few are simply good to know.",
  items:[
-  {h:"Agentic layer inside existing workflows",b:"AWS demo: an agent (Claude on Amazon Bedrock) embedded in order middleware resolved a vague email from CRM history and worked around an inventory outage. About 16 lines of orchestration code.",s:["agentic"],th:["judgment"]},
-  {h:"Agent building blocks and MCP",b:"Model + harness + context + tools (MCP connectors) + workstation. An agent's workspace is plain files: agents.md, skill.md, memory.md, schedule, output.",s:["agents"],th:["pilot"]},
-  {h:"Small open models running locally",b:"Llama, Gemma, Qwen and Mistral run offline on a laptop CPU through tools like Ollama, paired with RAG on a Postgres vector store.",s:["edge"],th:["local"]},
-  {h:"Desktop AI supercomputers",b:"Lenovo ThinkStation PGX on NVIDIA's GB10: about 1 petaflop and 128 GB unified memory on a standard outlet, under ~$10K (as stated). Prototype locally, scale later.",s:["pgx"],th:["local","cost"]},
-  {h:"LLM-as-judge, routing and caching",b:"Automated evaluation calibrated to humans (Cohen's kappa ~0.8), cheap models for simple tasks and strong ones for hard tasks, semantic caching for repeat questions.",s:["llm"],th:["judgment","cost"]},
-  {h:"AI that checks AI",b:"Workday runs deterministic checks for accuracy, bias, toxicity and tone on its AI outputs.",s:["infra"],th:["account"]},
-  {h:"Self-healing data ecosystems",b:"Capital One's direction: data platforms that detect and fix quality issues in real time rather than waiting for someone to notice.",s:["capone"],th:["data"]},
-  {h:"AI operators for small businesses",b:"Squire's AI phone agent answers calls, books appointments and refills cancellations. Recovered revenue is what wins skeptics.",s:["squire"],th:["pilot"]},
-  {h:"Data center heat recapture",b:"Server heat warms water for apartments and nursing homes across Europe; an Italian city is planning its hot water around a compute cluster.",s:["pressley"],th:["cost"]}
+  {h:"AI agents inside existing processes",b:"An AI agent can sit inside a normal workflow and handle the messy requests that rigid systems reject, like a vague email asking for \"the usual order.\"",us:"Look for places where requests arrive in free text or inconsistent formats. That's where an agent helps; clean, predictable pipelines don't need one.",s:["agentic"],th:["judgment"]},
+  {h:"Agent building blocks and connectors",b:"Agents are built from a few parts: an AI model, software that runs it, background context, and connectors (called MCP) that let it reach data and tools.",us:"We won't build these from scratch. The skill that matters is writing clear instructions and context, which is very close to writing good requirements.",s:["agents"],th:["pilot"]},
+  {h:"Small AI models that run locally",b:"Smaller AI models now run on an ordinary laptop, even offline, and can answer questions using our own documents.",us:"A possible way to try AI on sensitive data without it leaving the company, if IT approves. Best for narrow Q&A over our own documentation.",s:["edge"],th:["local"]},
+  {h:"Desktop AI workstations",b:"Desk-sized machines (about $10K, as stated) can now run serious AI models for prototyping without the cloud.",us:"Good to know about if cloud cost or data privacy ever blocks an experiment. Not something we need right now.",s:["pgx"],th:["local","cost"]},
+  {h:"AI grading AI, cheaper routing, reused answers",b:"AI can grade other AI's output (checked against human graders), cheap models can handle simple tasks, and repeated questions can reuse earlier answers.",us:"These keep AI accurate and affordable. For any pilot, ask two questions: how is the output checked, and what does each request cost?",s:["llm"],th:["judgment","cost"]},
+  {h:"Automated quality checks on AI output",b:"Automated checks scan AI output for accuracy, bias and tone before anyone sees it.",us:"We can do a simple version: a checklist or automated test that any AI-assisted output must pass before it goes to a stakeholder.",s:["infra"],th:["account"]},
+  {h:"Self-healing data",b:"Data platforms that catch and fix quality problems automatically, as they happen.",us:"Start with the basics: automated data-quality alerts on our most-used tables, so we spot problems before stakeholders do.",s:["capone"],th:["data"]},
+  {h:"AI assistants for frontline work",b:"AI agents now answer phones, book appointments and fill cancellations for small businesses.",us:"A reminder to measure AI by outcomes people care about. Squire won over skeptics by showing the revenue it recovered.",s:["squire"],th:["pilot"]},
+  {h:"Data center heat reuse",b:"Data centers can capture server heat and use it to warm water for nearby buildings.",us:"Mostly useful context for conversations about AI's environmental cost, not something our team acts on.",s:["pressley"],th:["cost"]}
  ]},
 {id:"datacenters", n:"6", t:"AI & data centers", h:"Major concerns and excitements about AI and data centers, and the solutions",
  a:"Speakers were clear-eyed on both sides. The harms are real and fall unevenly; the fixes are mostly known: transparency, testing, accountable owners, community voice and better infrastructure choices.",
@@ -364,7 +379,7 @@ function renderNav(cur){
 function cards(items){
   const shown = items.filter(i=>match(i.h+" "+i.b, i.s, i.th));
   if(!shown.length) return `<p class="empty">Nothing here matches that filter.</p>`;
-  return `<div class="grid">${shown.map(i=>`<article class="card">${i.p?`<span class="pri ${i.p}">${i.p==="now"?"Act now":i.p==="next"?"Next quarter":"Explore later"}</span>`:""}<h3>${esc(i.h)}</h3><p>${esc(i.b)}</p>${chips(i.s)}</article>`).join("")}</div>`;
+  return `<div class="grid">${shown.map(i=>`<article class="card">${i.p?`<span class="pri ${i.p}">${i.p==="now"?"Act now":i.p==="next"?"Next quarter":"Explore later"}</span>`:""}<h3>${esc(i.h)}</h3><p>${esc(i.b)}</p>${i.conf?`<div class="kv"><span>At AfroTech</span><p>${esc(i.conf)}</p></div>`:""}${i.try?`<div class="kv try"><span>Try this</span><p>${esc(i.try)}</p></div>`:""}${i.us?`<div class="kv try"><span>For our team</span><p>${esc(i.us)}</p></div>`:""}${i.think?`<div class="kv"><span>Think about</span><ul>${i.think.map(t=>`<li>${esc(t)}</li>`).join("")}</ul></div>`:""}${chips(i.s)}</article>`).join("")}</div>`;
 }
 function quotes(){
   const shown = QUOTES.map((q,i)=>({...q,i})).filter(q=>match(q.q,[q.s],q.th));
@@ -387,7 +402,7 @@ function overview(){
   return `<div class="photos"><figure><img src="team.jpg" alt="Our group in front of the AfroTech letters marking 10 years of AfroTech"><figcaption>The crew at AfroTech</figcaption></figure><figure><img src="sign.jpg" alt="Lit AfroTech marquee sign outside the Houston convention center"><figcaption>Houston, Nov 2026</figcaption></figure></div>
   <h2>The conference in one view</h2>
   <p class="lede">The same ideas kept surfacing across very different sessions. The bars show how many of the 18 sessions touched each theme. Click a theme, or use the filters above, to see every related insight.</p>
-  <div class="answer"><b>Bottom line for BI</b>AI rewards teams with clean, governed data and people who can frame problems, judge output and redesign work. Start with one measured pilot, keep humans accountable, and grow the team's roles rather than waiting for the tools to settle.</div>
+  <div class="answer"><b>Bottom line for BI</b><p style="margin:0 0 10px">AI will do more of the building. Our value is in asking the right questions, knowing our data, and checking the answers. Five things each of us can start this month:</p><ol class="actions"><li><strong>Use AI on one real task every week</strong> (a first-draft query, a meeting summary, a requirements outline) and share what worked.</li><li><strong>Start every request with the decision it supports</strong> and how we'll know it worked.</li><li><strong>Write down what only you know</strong> about our data: definitions, quirks, known gaps.</li><li><strong>Check AI's work like a reviewer:</strong> what did it assume, and does it hold up for every customer group?</li><li><strong>Pick one piece of your own work to redesign</strong> if AI handled the busywork, and bring it to team meeting.</li></ol></div>
   <div class="bars" role="list">${rows.map(([k,v])=>`<div class="bar" role="listitem"><button type="button" class="linkish" data-t="${k}">${THEMES[k]}</button><div class="track"><div class="fill" style="width:${(v/max*100).toFixed(0)}%"></div></div><span class="v">${v}</span></div>`).join("")}</div>
   <h3 class="sub3">Act now</h3>${cards(top)}
   <h3 class="sub3">Jump to a section</h3>
@@ -419,6 +434,19 @@ function about(){
   <p class="lede">The 18 sessions I attended clustered into six tracks. Click a session tag to see what it contributed.</p>
   <div class="about">${tracks.map(t=>`<article class="card"><h3>${esc(t.h)}</h3><p>${esc(t.b)}</p>${chips(t.s)}</article>`).join("")}</div>
   <p class="srcs">Sources: <a href="https://afrotech.com/afrotech-conference-2026-houston" target="_blank" rel="noopener">AfroTech: Conference 2026</a> · <a href="https://afrotechconference.com/faqs" target="_blank" rel="noopener">AfroTech Conference FAQs</a> · <a href="https://afrotech.com/black-tech-conferences-2026" target="_blank" rel="noopener">AfroTech: Black tech conferences 2026</a> · <a href="https://yespress.io/blavity-inc.md" target="_blank" rel="noopener">Blavity Inc. profile</a></p>`;
+}
+function pipeline(sec){
+  return `<ol class="pipe">${sec.items.map((i,n)=>{ const on = match(i.h+" "+i.b,i.s,i.th); return `<li class="step${(filter||theme)&&!on?" dim":""}"><div class="dot">${n+1}</div><div class="sbody"><h3>${esc(i.h)}</h3><p>${esc(i.b)}</p><div class="kv"><span>Think about</span><ul>${i.think.map(t=>`<li>${esc(t)}</li>`).join("")}</ul></div>${chips(i.s)}</div></li>`; }).join("")}</ol>
+  <div class="answer" style="margin-top:8px"><b>For your own day-to-day</b>${esc(sec.note)}</div>`;
+}
+function redesignView(){
+  const before = ["Request arrives by email, missing details","Back-and-forth to clarify what's needed","Analyst pulls data and builds the report by hand","Review meeting to walk through it","Revisions after the meeting"];
+  const after = ["Request comes through intake with the decision and metric spelled out","AI drafts the query and a first-pass analysis","Analyst checks it, adds context and the \"so what\"","Stakeholder gets a short written readout","Meeting only if a decision needs discussion"];
+  return `<h3 class="sub3">What does redesigning work look like?</h3>
+  <p class="lede">Redesigning work means asking which steps should exist at all once AI can do the drafting, instead of speeding up today's steps. Here's an illustrative example for a recurring report request.</p>
+  <div class="ba"><section class="col" style="--c:var(--line)"><h3>Today</h3><ol>${before.map(t=>`<li>${esc(t)}</li>`).join("")}</ol></section><section class="col" style="--c:var(--accent)"><h3>Redesigned</h3><ol>${after.map(t=>`<li>${esc(t)}</li>`).join("")}</ol></section></div>
+  <div class="answer" style="margin-top:16px"><b>How to try it on your own work</b><ol class="actions"><li>List the steps of one recurring workflow.</li><li>For each step, ask: does it need to exist? Could AI draft it? Where does a person's judgment matter?</li><li>Rebuild around the judgment steps and test the new version once.</li></ol></div>
+  <p class="lede" style="font-size:13px">Example based on the GE HealthCare and Workday sessions; not a prescribed process.</p>`;
 }
 function roleView(){
   const rows = ROLE.filter(x=>!filter||x.s.includes(filter));
@@ -469,7 +497,7 @@ function render(){
   else {
     const s = SECTIONS.find(x=>x.id===v);
     html = `<h2>${esc(s.h)}</h2><div class="answer"><b>Short answer</b>${esc(s.a)}</div>`;
-    html += v==="quotes" ? quotes() : v==="datacenters" ? dc() : v==="signals" ? roleView()+`<h3 class="sub3">What we act on</h3>`+cards(s.items) : cards(s.items);
+    html += v==="quotes" ? quotes() : v==="datacenters" ? dc() : v==="signals" ? roleView()+`<h3 class="sub3">What we act on</h3>`+cards(s.items) : v==="workflow" ? pipeline(s) : v==="future" ? redesignView()+`<h3 class="sub3">What we heard</h3>`+cards(s.items) : cards(s.items);
   }
   $("#view").innerHTML = html;
 }
@@ -502,10 +530,7 @@ $("#fth").innerHTML += Object.entries(THEMES).map(([k,v])=>`<option value="${k}"
 $("#fsess").addEventListener("change",e=>{ filter=e.target.value||null; render(); });
 $("#fth").addEventListener("change",e=>{ theme=e.target.value; render(); });
 $("#fclear").addEventListener("click",()=>{ filter=null; theme=""; render(); });
-$("#copy").addEventListener("click", async()=>{
-  try{ await navigator.clipboard.writeText(sectionText()); toast(current()==="quotes"&&stars.size?"Starred quotes copied":"Section copied"); }
-  catch(err){ toast("Copy was blocked. Select the text and copy it manually."); }
-});
+
 window.addEventListener("hashchange", render);
 render();
 </script>
