@@ -59,6 +59,8 @@ h1{font-family:var(--display);font-size:clamp(28px,4vw,40px);line-height:1.1;mar
 .notes p{margin:0 0 12px}
 .notes ul,.notes ol{margin:0 0 14px;padding-left:22px;display:flex;flex-direction:column;gap:6px}
 .notes > p:first-child{color:var(--muted);font-size:14px;border-bottom:1px solid var(--line);padding-bottom:12px}
+.skills{margin:0;padding-left:22px;display:flex;flex-direction:column;gap:8px;max-width:72ch}
+td .chips{padding-top:0}
 .count{font-family:var(--body);font-size:13px;font-weight:600;background:var(--accent-soft);color:var(--accent);padding:2px 8px;border-radius:99px;vertical-align:middle}
 .tools .hint{flex-basis:100%;font-size:13px;color:var(--muted);margin:-4px 0 0}
 .srcs a{color:var(--muted)}
@@ -251,7 +253,7 @@ const SECTIONS = [
  a:"Speakers were clear-eyed on both sides. The harms are real and fall unevenly; the fixes are mostly known: transparency, testing, accountable owners, community voice and better infrastructure choices.",
  items:[]},
 {id:"signals", n:"7", t:"Signals for our BI team", h:"What are the important signals for our BI team?",
- a:"Our data foundation is our AI strategy. Pair that with one well-run agent pilot, real evaluation discipline, and a deliberate plan for how our consultants' roles will grow.",
+ a:"Our value is moving away from producing insight and toward framing, governing and judging it. AI is taking over report building, queries and decks fastest; what it can't take is knowing which question matters, owning the data it depends on, and being accountable for whether the answer is right. That's where we position the team.",
  items:[
   {p:"now",h:"Treat the data foundation as the AI strategy",b:"Centralized, governed, documented data with captured business definitions. When AI answers wrong, check first whether it had the right context.",s:["capone","gebru","edge"],th:["data"]},
   {p:"now",h:"Run one agent pilot on a recurring report",b:"Map it, charter it, assign process owner / review lead / system owner, and measure hours saved, error rates and turnaround.",s:["agents","llm"],th:["pilot"]},
@@ -268,6 +270,22 @@ const SECTIONS = [
  ]}
 ];
 
+const ROLE = [
+  {f:"Taking requests and building what's asked",t:"Framing the problem and the success metric first",s:["llm","ge"]},
+  {f:"Producing insight",t:"Improving decisions, judged by what changed",s:["ge"]},
+  {f:"Specialists handing work off",t:"One owner from requirements to delivery, with AI filling gaps",s:["infra","linkedin","ge"]},
+  {f:"Consuming data",t:"Owning data quality, definitions and context",s:["capone","gebru","edge"]},
+  {f:"Using AI tools",t:"Directing and checking AI agents",s:["capone","agents"]},
+  {f:"Reporting the numbers",t:"Being accountable for fairness and explainability",s:["gebru","pressley","infra"]}
+];
+const SKILLS = [
+  {h:"Problem framing and metric design",b:"Where most AI projects fail, and where BI already has the advantage."},
+  {h:"Evaluating AI output",b:"Quality bars, edge-case tests, accuracy by segment, visible assumptions: the analyst's version of QA."},
+  {h:"Data stewardship and context",b:"Definitions, lineage and known gaps. AI answers are only as good as the context we give them."},
+  {h:"Redesigning work",b:"Rebuild workflows around AI instead of adding it on top."},
+  {h:"End-to-end fluency",b:"Requirements, design, build and testing with AI help, not one slice."},
+  {h:"Influence and communication",b:"Pitch with proof and dollars; as building gets cheap, persuading people to act is what's left."}
+];
 const QUOTES = [
   {q:"The ability to be fast does not equate to value.",s:"llm",th:["judgment"]},
   {q:"A best practice is simply the way we learned how to do something in yesterday's constraints.",s:"ge",th:["redesign"]},
@@ -402,6 +420,15 @@ function about(){
   <div class="about">${tracks.map(t=>`<article class="card"><h3>${esc(t.h)}</h3><p>${esc(t.b)}</p>${chips(t.s)}</article>`).join("")}</div>
   <p class="srcs">Sources: <a href="https://afrotech.com/afrotech-conference-2026-houston" target="_blank" rel="noopener">AfroTech: Conference 2026</a> · <a href="https://afrotechconference.com/faqs" target="_blank" rel="noopener">AfroTech Conference FAQs</a> · <a href="https://afrotech.com/black-tech-conferences-2026" target="_blank" rel="noopener">AfroTech: Black tech conferences 2026</a> · <a href="https://yespress.io/blavity-inc.md" target="_blank" rel="noopener">Blavity Inc. profile</a></p>`;
 }
+function roleView(){
+  const rows = ROLE.filter(x=>!filter||x.s.includes(filter));
+  return `<h3 class="sub3">How our role evolves</h3>
+  <div class="tablewrap"><table><thead><tr><th>From</th><th>To</th><th>Where it came up</th></tr></thead><tbody>${rows.map(x=>`<tr><td>${esc(x.f)}</td><td><strong>${esc(x.t)}</strong></td><td>${chips(x.s)}</td></tr>`).join("")}</tbody></table></div>
+  <h3 class="sub3">Skills to lean into, in priority order</h3>
+  <ol class="skills">${SKILLS.map(x=>`<li><strong>${esc(x.h)}.</strong> ${esc(x.b)}</li>`).join("")}</ol>
+  <div class="answer" style="margin-top:18px"><b>What this means for us</b>Rebrand from report factory to decision partner, make data context the team's asset, use the intake agent pilot as our proof point, and grow every consultant end to end. Pure report production is shrinking; the analysts who move upstream will be fine.</div>
+  <p class="lede" style="font-size:14px">Caveat: most advice at AfroTech was general enterprise AI, not BI-specific, and figures like Workday's 3–5x are single-company examples, not research.</p>`;
+}
 function results(){
   const label = [filter?S[filter].t:null, theme?THEMES[theme]:null].filter(Boolean).join(" + ");
   let total = 0, body = "";
@@ -442,7 +469,7 @@ function render(){
   else {
     const s = SECTIONS.find(x=>x.id===v);
     html = `<h2>${esc(s.h)}</h2><div class="answer"><b>Short answer</b>${esc(s.a)}</div>`;
-    html += v==="quotes" ? quotes() : v==="datacenters" ? dc() : cards(s.items);
+    html += v==="quotes" ? quotes() : v==="datacenters" ? dc() : v==="signals" ? roleView()+`<h3 class="sub3">What we act on</h3>`+cards(s.items) : cards(s.items);
   }
   $("#view").innerHTML = html;
 }
@@ -458,6 +485,7 @@ function sectionText(){
     const f = (t,l)=>t+"\n"+l.map(i=>"- "+i.b).join("\n");
     return "AI & data centers (AfroTech 2026)\n\n"+f("Concerns",DC.concerns)+"\n\n"+f("Excitement",DC.excite)+"\n\n"+f("Solutions",DC.fixes);
   }
+  if(v==="signals") return document.querySelector("#view").innerText;
   const s = SECTIONS.find(x=>x.id===v) || SECTIONS.find(x=>x.id==="signals");
   return `${s.h}\n\n${s.a}\n\n`+s.items.map(i=>`- ${i.h}: ${i.b} [${i.s.map(k=>S[k].t).join("; ")}]`).join("\n");
 }
