@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AfroTech 2026: Notes &amp; Key Takeaways</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  /* Layout: left question rail + reading column; insights are cards tagged by source session */
+  --bg:#F3F4F1; --surface:#FFFFFF; --ink:#18201E; --muted:#5B6662; --line:#DCE0DB;
+  --accent:#0E6B5A; --accent-soft:#DDEDE8; --gold:#B7791F; --gold-soft:#F6EBD7;
+  --now:#0E6B5A; --next:#B7791F; --later:#6B6FA8;
+  --display:"Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --body:"IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#111615; --surface:#1A201F; --ink:#E7ECE9; --muted:#9AA6A1; --line:#2C3533;
+    --accent:#4FC2A8; --accent-soft:#1C332E; --gold:#E3AE57; --gold-soft:#3A2F1C;
+    --now:#4FC2A8; --next:#E3AE57; --later:#A3A7E0; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#111615; --surface:#1A201F; --ink:#E7ECE9; --muted:#9AA6A1; --line:#2C3533;
+  --accent:#4FC2A8; --accent-soft:#1C332E; --gold:#E3AE57; --gold-soft:#3A2F1C;
+  --now:#4FC2A8; --next:#E3AE57; --later:#A3A7E0; color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.55}
+a{color:var(--accent)}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:4px}
+header{padding:28px 24px 20px;border-bottom:1px solid var(--line);background:var(--surface)}
+.hwrap{max-width:1180px;margin:0 auto;display:flex;flex-wrap:wrap;gap:16px 32px;align-items:flex-end;justify-content:space-between}
+.eyebrow{font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:0 0 6px}
+h1{font-family:var(--display);font-size:clamp(28px,4vw,40px);line-height:1.1;margin:0;text-wrap:balance}
+.sub{color:var(--muted);margin:8px 0 0;max-width:62ch}
+.brands{display:flex;align-items:center;gap:14px;padding:12px 16px;border:1px solid var(--line);border-radius:12px;background:var(--bg)}
+.wm{font-family:var(--display);font-weight:700;font-size:20px;line-height:1;letter-spacing:-.01em}
+.xx{color:var(--muted);font-size:18px}
+.about{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;margin-bottom:22px}
+.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:0 0 22px}
+.fact{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+.fact b{display:block;font-family:var(--display);font-size:26px;line-height:1.1;font-variant-numeric:tabular-nums}
+.fact span{font-size:13px;color:var(--muted)}
+.prose{max-width:68ch}
+.prose p{margin:0 0 12px}
+.srcs{font-size:13px;color:var(--muted);margin-top:18px}
+.linkish{background:none;border:0;padding:0;font:inherit;color:inherit;text-align:left;text-decoration:underline;text-decoration-color:var(--line);text-underline-offset:3px}
+.linkish:hover{color:var(--accent);text-decoration-color:var(--accent)}
+.count{font-family:var(--body);font-size:13px;font-weight:600;background:var(--accent-soft);color:var(--accent);padding:2px 8px;border-radius:99px;vertical-align:middle}
+.tools .hint{flex-basis:100%;font-size:13px;color:var(--muted);margin:-4px 0 0}
+.srcs a{color:var(--muted)}
+.stat b{display:block;font-family:var(--display);font-size:26px;line-height:1}
+.stat span{font-size:13px;color:var(--muted)}
+.layout{max-width:1180px;margin:0 auto;padding:24px;display:grid;grid-template-columns:250px 1fr;gap:32px}
+nav{position:sticky;top:16px;align-self:start;display:flex;flex-direction:column;gap:4px}
+nav button{text-align:left;background:none;border:0;padding:9px 12px;border-radius:8px;color:var(--muted);font-weight:500;font-size:15px;display:flex;gap:10px;align-items:baseline}
+nav button .n{font-variant-numeric:tabular-nums;font-size:12px;color:var(--muted);min-width:18px}
+nav button:hover{background:var(--accent-soft);color:var(--ink)}
+nav button[aria-current="true"]{background:var(--accent);color:#fff}
+nav button[aria-current="true"] .n{color:#fff}
+.tools{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:18px}
+.tools{align-items:flex-end}
+.field{display:flex;flex-direction:column;gap:4px;flex:1 1 180px}
+.field label{font-size:12px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
+.field select{padding:9px 10px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--ink);font:inherit}
+.field select.on{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent)}
+.photos{display:grid;grid-template-columns:1fr 1.4fr;gap:12px;margin:0 0 26px}
+.photos figure{margin:0;border-radius:12px;overflow:hidden;background:var(--line);position:relative}
+.photos img{display:block;width:100%;height:320px;object-fit:cover;object-position:center 70%}
+.photos figcaption{position:absolute;left:10px;bottom:10px;background:rgba(0,0,0,.6);color:#fff;font-size:12px;padding:3px 8px;border-radius:6px}
+@media (max-width:560px){.photos{grid-template-columns:1fr}.photos img{height:240px}}
+.btn{border:1px solid var(--line);background:var(--surface);padding:9px 12px;border-radius:8px;font-size:14px;font-weight:500}
+.btn:hover{border-color:var(--accent)}
+.filter-note{font-size:14px;color:var(--muted);display:flex;gap:8px;align-items:center}
+.filter-note button{border:0;background:var(--gold-soft);color:var(--ink);padding:3px 10px;border-radius:99px;font-size:13px}
+h2{font-family:var(--display);font-size:28px;line-height:1.15;margin:0 0 6px;text-wrap:balance}
+.lede{color:var(--muted);margin:0 0 20px;max-width:68ch}
+.answer{background:var(--accent-soft);border-left:4px solid var(--accent);padding:14px 18px;border-radius:0 10px 10px 0;margin:0 0 22px;max-width:76ch}
+.answer b{display:block;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--accent);margin-bottom:4px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px 18px;display:flex;flex-direction:column;gap:8px}
+.card h3{font-size:17px;margin:0;line-height:1.3}
+.card p{margin:0;color:var(--ink);font-size:15px}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:auto;padding-top:6px}
+.chip{border:1px solid var(--line);background:none;border-radius:99px;padding:2px 9px;font-size:12px;color:var(--muted)}
+.chip:hover{border-color:var(--accent);color:var(--accent)}
+.pri{display:inline-block;font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;padding:2px 8px;border-radius:99px;color:#fff;align-self:flex-start}
+.pri.now{background:var(--now)} .pri.next{background:var(--next)} .pri.later{background:var(--later)}
+:root[data-theme="dark"] .pri, :root:not([data-theme="light"]) .pri{color:#fff}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .pri{color:#111}}
+:root[data-theme="dark"] .pri{color:#111}
+.sub3{font-family:var(--display);font-size:19px;margin:26px 0 10px}
+.quote{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:18px;display:flex;flex-direction:column;gap:10px}
+.quote blockquote{margin:0;font-family:var(--display);font-size:19px;line-height:1.35;font-weight:600}
+.quote .who{font-size:14px;color:var(--muted)}
+.qfoot{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:auto}
+.star{border:1px solid var(--line);background:none;border-radius:8px;padding:5px 10px;font-size:13px}
+.star[aria-pressed="true"]{background:var(--gold-soft);border-color:var(--gold);color:var(--ink)}
+.bars{display:flex;flex-direction:column;gap:8px;max-width:640px}
+.bar{display:grid;grid-template-columns:190px 1fr 28px;gap:10px;align-items:center;font-size:14px}
+.bar .track{height:12px;background:var(--line);border-radius:99px;overflow:hidden}
+.bar .fill{height:100%;background:var(--accent);border-radius:99px}
+.bar .v{font-variant-numeric:tabular-nums;color:var(--muted);text-align:right}
+table{width:100%;border-collapse:collapse;font-size:14px;background:var(--surface);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:12px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
+.tablewrap{overflow-x:auto}
+.cols3{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+.col{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px 18px;border-top:4px solid var(--c)}
+.col h3{margin:0 0 8px;font-family:var(--display);font-size:18px}
+.col ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:8px;font-size:15px}
+.col li small{color:var(--muted)}
+.empty{color:var(--muted);font-style:italic}
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:8px 14px;border-radius:8px;font-size:14px;opacity:0;transition:opacity .2s;pointer-events:none}
+.toast.show{opacity:1}
+footer{max-width:1180px;margin:0 auto;padding:0 24px 40px;color:var(--muted);font-size:13px}
+.hidden{display:none!important}
+@media (max-width:820px){
+  .layout{grid-template-columns:1fr;gap:16px}
+  nav{position:static;flex-direction:row;overflow-x:auto;gap:6px;padding-bottom:4px}
+  nav button{white-space:nowrap;border:1px solid var(--line)}
+  .bar{grid-template-columns:120px 1fr 24px}
+}
+@media (prefers-reduced-motion: reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<header>
+  <div class="hwrap">
+    <div>
+      <p class="eyebrow">AfroTech 2026 · Houston · Nov 2–6</p>
+      <h1>AfroTech 2026: Notes &amp; Key Takeaways</h1>
+      <p class="sub">What I learned while at AfroTech, organized for our applied analytics team to help lead in AI transformation. Click any session tag to see everything that session contributed.</p>
+    </div>
+    <div class="brands" aria-label="AfroTech and The Hartford">
+      <span class="wm wm-a">AfroTech</span><span class="xx" aria-hidden="true">×</span><span class="wm wm-h">The Hartford</span>
+    </div>
+  </div>
+</header>
+
+<div class="layout">
+  <nav id="nav" aria-label="Questions"></nav>
+  <main>
+    <div class="tools">
+      <div class="field"><label for="fsess">Session</label><select id="fsess"><option value="">All sessions</option></select></div>
+      <div class="field"><label for="fth">Theme</label><select id="fth"><option value="">All themes</option></select></div>
+      <button class="btn" id="copy" type="button">Copy this section</button>
+      <button type="button" class="btn hidden" id="fclear">Clear filters</button>
+      <p class="hint">Filters narrow every page. On the overview they pull matching insights from all seven questions into one view.</p>
+    </div>
+    <div id="view"></div>
+  </main>
+</div>
+<footer>Built from the 18 session summaries in the AfroTech Google Drive folder. Quotes are lightly cleaned from automatic transcripts; speaker names marked "confirm" were unclear in the recording.</footer>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+const D = "https://docs.google.com/document/d/";
+const S = {
+  agentic:{t:"How Agentic AI Handles Ambiguity",w:"Jonathan Yeldo (confirm), AWS",u:"1xzW1UzOLDL3_Ye77Kt-XuIyDGAottNzhSAWTWz62xS8",d:"Nov 4"},
+  edge:{t:"Low Latency AI with Edge Computing",w:"Gregory Green (confirm), VMware/Broadcom",u:"1iAWy0Ga62OaRZgOAo26mDR0O3nqajDGpvQ--aniwjfM",d:"Nov 4"},
+  bet:{t:"Bet on Black | BET Marketing",w:"BET marketing leader",u:"1syx3oNVVpzSwrSO3n2rZKdbdkeN9y5HtRgBr7ALyWgU",d:"Nov 5"},
+  llm:{t:"What's Next After LLM?",w:"Speaker not captured",u:"1twOYRXBmodJ4gyC3tgG9HwalRyB8L6YY8FiUMx19rYw",d:"Nov 5"},
+  elle:{t:"Author Spotlight: J. Elle",w:"J. Elle",u:"1qmHmZWrmtOvRMvdMcGUWXP8GN1NcwU3wqOwpB67fhr4",d:"Nov 5"},
+  idea:{t:"Idea Spot: Scale Your Startup",w:"Founder coaching session",u:"1dCzSLXBfwuzJMUjyUrmqK-KuoO-DSWbXGmO5fLzIUKM",d:"Nov 5"},
+  infra:{t:"The Invisible Infrastructure Is Writing Itself",w:"Rani Johnson (Workday CIO) and panel",u:"1jjMxxbr6XXw4ScKfi7f909tPMFjeE1UwQ8Qau6TgH-M",d:"Nov 5"},
+  founder:{t:"Welcome From the Founder",w:"Morgan DeBaun (confirm), Blavity / AfroTech",u:"17_I7PKV3UBFcv3IXRIWN1-ycuHXZvEG6QxhYqx8PlCo",d:"Nov 5"},
+  gebru:{t:"The Human Cost of Smarter Systems",w:"Dr. Timnit Gebru, DAIR",u:"1Bq0Y269dKOwHhpmws71QU3L80ii7RzmBS71wJKVdvwo",d:"Nov 5"},
+  neuro:{t:"Neurospicy Minds and Tech Leadership",w:"Speaker not captured",u:"1gG-M2dhop5MgBLiqzcgEPbJCPXnph0yGQLJ0gLP1V-0",d:"Nov 5"},
+  career:{t:"Tech Career in Uncertain Times",w:"Deshaun (last name not captured)",u:"1hXAel5GHzmzFll4MUwTUgKD8yJNwtm06DmzL_OvU3h0",d:"Nov 5"},
+  linkedin:{t:"Getting Discovered in the LinkedIn Feed",w:"Tim and Travis Hutchinson, LinkedIn",u:"1Qm7omcvYlLo7SIpfMgtAH31rkRCsbdmInFABCjACCLE",d:"Nov 5"},
+  squire:{t:"Products Rooted in Community Needs",w:"Dave Salvant (confirm), Squire",u:"1Oc7sGcLXob6uQQW-x1BDdEo4qqH0VOTvZQ0GPfKUX2Q",d:"Nov 5"},
+  capone:{t:"Scale Smarter (Capital One)",w:"Capital One technology panel",u:"1a6dWE7hfsEgcj3Phgqd3vLCXrREp8XgLCE1aDar83tY",d:"Nov 5"},
+  agents:{t:"Building AI Agents for Enterprise",w:"Brandon, RUDI",u:"1t5ftuSu7Sh6s_HPgEnjV48fILOsaf7dRv9Z5a7r2TCM",d:"Nov 5"},
+  ge:{t:"Future Ready Workforce (GE HealthCare)",w:"Adam Holton and Jahid (confirm), GE HealthCare",u:"1XQQCL0FRvO93riRNHa6UYN8Jr0U9QYsRW4m3h3-ScJw",d:"Nov 5"},
+  pgx:{t:"The AI Supercomputer on Your Desk",w:"Speaker not captured",u:"1eAyjEr_vQvGtPJEbtIhhY0xr3w3dKjERxD8D39gnaSw",d:"Nov 5"},
+  pressley:{t:"Accountability and the AI Economy",w:"Rep. Ayanna Pressley",u:"1f2thUrNLqTsKb0esaSpHA_a2ljWztG8mv47YGPj3E2g",d:"Nov 5"}
+};
+
+const THEMES = {
+  judgment:"Human judgment & oversight", converge:"Roles converge end to end", data:"Data quality is the edge",
+  redesign:"Redesign work, don't bolt on", account:"Accountability, bias & trust", pilot:"Start small, measure ROI",
+  local:"Local & edge AI", cost:"Cost discipline", people:"People, culture & community"
+};
+
+const SECTIONS = [
+{id:"future", n:"1", t:"Future of work", h:"What does the future of work look like in the age of AI?",
+ a:"Work shifts from doing tasks to directing and judging them. Roles merge into end-to-end ownership, every professional manages AI agents, and the biggest gains go to teams that redesign the work itself instead of adding AI on top.",
+ items:[
+  {h:"Roles collapse into end-to-end ownership",b:"Workday had one person use AI to cover PM, BA, architect and QA roles: 3–5x faster delivery with better quality, driven by ownership and fewer handoffs. LinkedIn's PMs now label data, build LLM classifiers and ship code.",s:["infra","linkedin","ge","capone"],th:["converge"]},
+  {h:"Everyone becomes a manager of agents",b:"Capital One's 2030 vision: \"everyone is a CEO of agents.\" The scarce skill is directing agents toward a goal and checking they did what they should.",s:["capone","agents"],th:["judgment"]},
+  {h:"Redesign the work, don't bolt AI on",b:"GE HealthCare: adding AI to the old process gives modest gains; reimagining it is transformational. If AI builds the analysis and deck, ask whether the meeting is needed at all.",s:["ge","agents","llm"],th:["redesign"]},
+  {h:"Value moves upstream to judgment",b:"AI now generates insight faster than people do. Our edge becomes framing the right question, choosing metrics, prioritizing and deciding.",s:["ge","llm","capone"],th:["judgment"]},
+  {h:"Skills expire faster than training cycles",b:"GE cited the WEF estimate that about 40% of core skills change by 2030. Learning has to be continuous and tied to outcomes, not one-off courses.",s:["ge","career"],th:["people"]},
+  {h:"Hybrid systems, not replacement",b:"AWS: keep deterministic workflows as the backbone and add an AI layer only where ambiguity enters. Roughly 80% of workflows don't need agents at all.",s:["agentic","infra"],th:["judgment"]},
+  {h:"Leaders own the transition",b:"Workday redeployed a team whose work was going away (rotations, CEO-backed roles, HR involved early) and told contractor agencies to reskill QA staff.",s:["infra","ge"],th:["people"]},
+  {h:"The future is not written yet",b:"The AI rules, the companies and the money are still being decided. \"Don't wait your turn\": be creators, not just users.",s:["founder","infra","pressley"],th:["people"]}
+ ]},
+{id:"skills", n:"2", t:"Skills to lean into", h:"What are the most important skills I should lean into?",
+ a:"Four skills came up again and again: learning agility, decision quality, evaluation of AI output, and redesigning work. Underneath them sit data fluency and the human skills AI can't replace.",
+ items:[
+  {h:"Learning agility and unlearning",b:"Stay curious and open to a better way. \"A best practice is simply the way we learned to do something in yesterday's constraints.\"",s:["ge","founder","career"],th:["people"]},
+  {h:"Decision quality and problem framing",b:"About 80% of AI projects fail because the problem or success metric was wrong, not the tech. Framing the question is the job.",s:["llm","ge"],th:["judgment"]},
+  {h:"Evaluating AI output",b:"Define good / acceptable / never-ship bars, test edge cases, calibrate LLM judges against human graders, and check accuracy by subgroup.",s:["llm","gebru","agentic"],th:["judgment","account"]},
+  {h:"Redesigning work",b:"GE's CHRO called it the most important leadership skill of the future: understand the work underneath and rebuild it around what's now possible.",s:["ge","agents"],th:["redesign"]},
+  {h:"Data curation and literacy",b:"Models are commodities; curated, well-governed data is the differentiator. Capital One urged technologists to become data specialists.",s:["capone","gebru","edge"],th:["data"]},
+  {h:"Stretching across roles",b:"\"Switch hitters\" from other fields win now: they bring outside perspective and use AI to cover product, design and build work.",s:["linkedin","infra"],th:["converge"]},
+  {h:"Human connection and composure",b:"Compassion, resilience and calm under pressure stay human. Ask \"do you want me to listen or advise?\" before fixing.",s:["ge","bet","neuro"],th:["people"]},
+  {h:"Visibility and sponsorship",b:"Build skill, show proof, be visible. Sponsors advocate for you in rooms you're not in; consistent posting and showing up creates opportunities.",s:["career","linkedin","bet","founder"],th:["people"]}
+ ]},
+{id:"workflow", n:"3", t:"Bringing AI into the team", h:"What's the most effective way to incorporate AI into my daily workflow and my team?",
+ a:"Pick one painful recurring workflow, map it, give the agent a charter and three human owners, measure the result, and expand only what works. Around that, give people access, permission to experiment and leaders who visibly use AI themselves.",
+ items:[
+  {h:"Start from a process, not a tool",b:"The MIT NANDA study found 95% of enterprise AI efforts weren't returning value, largely because companies bought tools without a target. Pick a bottleneck first.",s:["agents","llm"],th:["pilot"]},
+  {h:"Map it, then write a charter",b:"Talk the process through with an AI assistant and have it draw a Mermaid flowchart. Define what the agent does, its boundaries, and when it escalates.",s:["agents"],th:["pilot","redesign"]},
+  {h:"Name three owners",b:"Process owner (knows the work), review lead (approves output), system owner (configures and fixes it). \"The agent did it\" is never an answer.",s:["agents","gebru"],th:["account","judgment"]},
+  {h:"Let people experiment freely",b:"Workday gave every employee an AI assistant in early 2023 with no output targets. The best use cases came from the ground up. Approvals should take hours, not 15 sign-offs.",s:["infra","ge"],th:["people"]},
+  {h:"Leaders model it",b:"You can't tell a team to use AI if you don't. Share role-specific examples; run communities of practice.",s:["ge"],th:["people"]},
+  {h:"Exact where it must be, generative where it helps",b:"Financial figures need rule-based, repeatable logic. Route only messy, ambiguous cases to AI, and have it list the assumptions it made.",s:["infra","agentic","bet"],th:["judgment"]},
+  {h:"Guard the data",b:"Enterprise accounts only, no personal AI accounts. Agents inherit the access of the person they work for.",s:["agents","edge","pgx"],th:["account"]},
+  {h:"Personal productivity patterns",b:"Use AI to break tasks into steps under 10 minutes, estimate time with a buffer, and summarize meetings. Making this normal for everyone helps neurodivergent teammates without disclosure.",s:["neuro"],th:["people"]},
+  {h:"Compound small wins",b:"1% better every day is about 37x in a year. Not every improvement needs to be a big bet.",s:["ge"],th:["pilot"]}
+ ]},
+{id:"quotes", n:"4", t:"Quotes", h:"Quotes that resonated",
+ a:"Star the ones that land for you; your stars are remembered in this browser. Use Copy this section to paste the starred ones into a team update.",
+ items:[]},
+{id:"tech", n:"5", t:"Emerging technology", h:"What new and exciting technologies are emerging?",
+ a:"The stack is moving toward agents that use your existing systems as tools, small models that run locally, and automated evaluation. Most of it is usable today.",
+ items:[
+  {h:"Agentic layer inside existing workflows",b:"AWS demo: an agent (Claude on Amazon Bedrock) embedded in order middleware resolved a vague email from CRM history and worked around an inventory outage. About 16 lines of orchestration code.",s:["agentic"],th:["judgment"]},
+  {h:"Agent building blocks and MCP",b:"Model + harness + context + tools (MCP connectors) + workstation. An agent's workspace is plain files: agents.md, skill.md, memory.md, schedule, output.",s:["agents"],th:["pilot"]},
+  {h:"Small open models running locally",b:"Llama, Gemma, Qwen and Mistral run offline on a laptop CPU through tools like Ollama, paired with RAG on a Postgres vector store.",s:["edge"],th:["local"]},
+  {h:"Desktop AI supercomputers",b:"Lenovo ThinkStation PGX on NVIDIA's GB10: about 1 petaflop and 128 GB unified memory on a standard outlet, under ~$10K (as stated). Prototype locally, scale later.",s:["pgx"],th:["local","cost"]},
+  {h:"LLM-as-judge, routing and caching",b:"Automated evaluation calibrated to humans (Cohen's kappa ~0.8), cheap models for simple tasks and strong ones for hard tasks, semantic caching for repeat questions.",s:["llm"],th:["judgment","cost"]},
+  {h:"AI that checks AI",b:"Workday runs deterministic checks for accuracy, bias, toxicity and tone on its AI outputs.",s:["infra"],th:["account"]},
+  {h:"Self-healing data ecosystems",b:"Capital One's direction: data platforms that detect and fix quality issues in real time rather than waiting for someone to notice.",s:["capone"],th:["data"]},
+  {h:"AI operators for small businesses",b:"Squire's AI phone agent answers calls, books appointments and refills cancellations. Recovered revenue is what wins skeptics.",s:["squire"],th:["pilot"]},
+  {h:"Data center heat recapture",b:"Server heat warms water for apartments and nursing homes across Europe; an Italian city is planning its hot water around a compute cluster.",s:["pressley"],th:["cost"]}
+ ]},
+{id:"datacenters", n:"6", t:"AI & data centers", h:"Major concerns and excitements about AI and data centers, and the solutions",
+ a:"Speakers were clear-eyed on both sides. The harms are real and fall unevenly; the fixes are mostly known: transparency, testing, accountable owners, community voice and better infrastructure choices.",
+ items:[]},
+{id:"signals", n:"7", t:"Signals for our BI team", h:"What are the important signals for our BI team?",
+ a:"Our data foundation is our AI strategy. Pair that with one well-run agent pilot, real evaluation discipline, and a deliberate plan for how our consultants' roles will grow.",
+ items:[
+  {p:"now",h:"Treat the data foundation as the AI strategy",b:"Centralized, governed, documented data with captured business definitions. When AI answers wrong, check first whether it had the right context.",s:["capone","gebru","edge"],th:["data"]},
+  {p:"now",h:"Run one agent pilot on a recurring report",b:"Map it, charter it, assign process owner / review lead / system owner, and measure hours saved, error rates and turnaround.",s:["agents","llm"],th:["pilot"]},
+  {p:"now",h:"Build evaluation discipline",b:"Good / acceptable / never-ship bars, edge-case test sets, accuracy by customer segment, and AI outputs that state their assumptions.",s:["llm","gebru","agentic","bet"],th:["judgment","account"]},
+  {p:"now",h:"Keep financial figures deterministic",b:"Rule-based logic where answers must be exact; generative AI for drafting, summarizing and exploration, clearly labeled.",s:["infra","agentic"],th:["judgment"]},
+  {p:"now",h:"Prepare for bias and explainability scrutiny",b:"Lending, hiring and eligibility algorithms are under scrutiny, and insurance models face similar questions. Build testing, documentation and AI-use disclosure in now.",s:["pressley","gebru"],th:["account"]},
+  {p:"now",h:"Make experimentation safe and normal",b:"Access to approved tools, fast approvals, leaders modeling use, and space to flag a model that seems unfair.",s:["infra","ge","neuro","pressley"],th:["people"]},
+  {p:"next",h:"Redesign our biggest workflows",b:"Intake, data pulls, analysis, report builds, review meetings: what would each look like designed from scratch with AI?",s:["ge","agents"],th:["redesign"]},
+  {p:"next",h:"Grow consultants end to end",b:"Stretch across requirements, design, build and testing. Use 12-month skill plans and act as their sponsor in talent conversations.",s:["infra","linkedin","career","ge"],th:["converge","people"]},
+  {p:"next",h:"Put cost on the table early",b:"Estimate inference costs at project start; consider model routing and caching before scaling.",s:["llm","edge"],th:["cost"]},
+  {p:"next",h:"Ask what our metrics undercount",b:"Dashboards can steer investment away from under-represented segments; AI lists can miss what domain experts know.",s:["elle","bet","gebru"],th:["account","data"]},
+  {p:"next",h:"Pitch with proof and dollars",b:"Bring early usage data, show workload reduction and business value, and demo live to win adoption.",s:["career","idea","squire"],th:["pilot"]},
+  {p:"later",h:"Evaluate a local AI sandbox",b:"Small models or a desktop AI workstation could let us prototype on sensitive data without sending it out. Worth a conversation with IT and security.",s:["edge","pgx"],th:["local"]}
+ ]}
+];
+
+const QUOTES = [
+  {q:"The ability to be fast does not equate to value.",s:"llm",th:["judgment"]},
+  {q:"A best practice is simply the way we learned how to do something in yesterday's constraints.",s:"ge",th:["redesign"]},
+  {q:"AI agents aren't here to replace your systems, and they really shouldn't.",s:"agentic",th:["judgment"]},
+  {q:"Never lose the plot. And the plot is the people.",s:"pressley",th:["account"]},
+  {q:"The people closest to the pain should be the closest to the power.",s:"pressley",th:["account"]},
+  {q:"It's people all the way down.",s:"gebru",th:["account"]},
+  {q:"AI is a marketing term.",s:"gebru",th:["account"]},
+  {q:"Garbage in, garbage out. It remains true in the age of AI.",s:"capone",th:["data"]},
+  {q:"You should be thinking about agents the same way you think about onboarding a new hire.",s:"agents",th:["pilot"]},
+  {q:"The question is not what will technology do to us, but what will we do with technology.",s:"founder",th:["people"]},
+  {q:"If you wait for the ropes to slow down, you'll be standing on the side.",s:"founder",th:["people"]},
+  {q:"Ambition is not the constraint. Execution is.",s:"pgx",th:["pilot"]},
+  {q:"Just like you can download a movie, you can download your models.",s:"edge",th:["local"]},
+  {q:"It's a phenomenal time to be a builder because the cost of building is going straight down.",s:"linkedin",th:["converge"]},
+  {q:"We need to be at the forefront. Not just users, but also the creators.",s:"infra",th:["people"]},
+  {q:"The market is the only version of the truth.",s:"squire",th:["pilot"]},
+  {q:"It's easy to say no the first time. It's hard to say no the seventh time.",s:"squire",th:["people"]},
+  {q:"Disclosure is context.",s:"neuro",th:["people"]},
+  {q:"Sponsors are those people that are talking about you when you're not in the room.",s:"career",th:["people"]},
+  {q:"I want a chair as big as yours.",s:"elle",th:["people"]}
+];
+
+const DC = {
+  concerns:[
+    {b:"Environmental and health harm near data centers, often in low-income and rural communities (e.g., Memphis).",s:["gebru","pressley"],th:["account"]},
+    {b:"Bias that falls hardest on darker-skinned people: facial recognition error rates, a wrongful arrest in Detroit, sensors that don't detect darker skin.",s:["gebru","infra"],th:["account"]},
+    {b:"Undocumented, scraped training data and hidden data-labeling labor paid around $1/hour.",s:["gebru"],th:["data"]},
+    {b:"Runaway inference cost (Sora's was reported near $1M/day) and strained cloud capacity.",s:["llm","edge"],th:["cost"]},
+    {b:"Privacy and trust failures, such as Microsoft Recall before it became opt-in.",s:["llm","agents"],th:["account"]},
+    {b:"Algorithms deciding hiring, lending and public safety without transparency; deepfakes harming teens and elders.",s:["pressley"],th:["account"]},
+    {b:"Hype and \"the model went rogue\" narratives that dodge accountability and justify layoffs.",s:["gebru"],th:["account"]}
+  ],
+  excite:[
+    {b:"Agents that handle messy requests and work around outages in real time.",s:["agentic"],th:["judgment"]},
+    {b:"3–5x faster delivery when one owner uses AI across the lifecycle.",s:["infra"],th:["converge"]},
+    {b:"Building costs falling toward zero, opening the door to new builders.",s:["linkedin","squire"],th:["cost"]},
+    {b:"Capable models running locally and offline, reaching places without reliable internet.",s:["edge","pgx"],th:["local"]},
+    {b:"Admin work lifted off small businesses and teams, freeing time for people.",s:["squire","infra"],th:["pilot"]},
+    {b:"A future still being written, with room for new voices to shape it.",s:["founder"],th:["people"]}
+  ],
+  fixes:[
+    {b:"Require heat recapture as a condition for new data centers.",s:["pressley"],th:["cost"]},
+    {b:"Hybrid infrastructure: local and edge where data is sensitive or latency matters, cloud for scale.",s:["edge","pgx"],th:["local"]},
+    {b:"Model routing and semantic caching to control cost.",s:["llm"],th:["cost"]},
+    {b:"Bias testing, transparency and disclosure of AI use (the proposed AI Civil Rights Act).",s:["pressley","gebru"],th:["account"]},
+    {b:"Document every dataset: \"what's in the soup?\"",s:["gebru"],th:["data"]},
+    {b:"Bounded tool access, server-side validation and human review.",s:["agentic","agents"],th:["judgment"]},
+    {b:"Communities at the table on siting; safety proven before release; humans accountable for outcomes.",s:["pressley","gebru"],th:["account"]}
+  ]
+};
+
+const $ = s => document.querySelector(s);
+const esc = s => s.replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+let filter = null; let theme = "";
+let stars = new Set();
+try{ stars = new Set(JSON.parse(localStorage.getItem("afrotech-stars")||"[]")); }catch(e){}
+const saveStars = () => { try{ localStorage.setItem("afrotech-stars", JSON.stringify([...stars])); }catch(e){} };
+
+function chips(list){ return `<div class="chips">${list.map(k=>`<button type="button" class="chip" data-s="${k}" title="${esc(S[k].w)}">${esc(S[k].t)}</button>`).join("")}</div>`; }
+function match(text, srcs, th){
+  if(filter && !srcs.includes(filter)) return false;
+  if(theme && !(th||[]).includes(theme)) return false;
+  return true;
+}
+
+function renderStats(){
+  const insights = SECTIONS.reduce((a,s)=>a+s.items.length,0) + DC.concerns.length + DC.excite.length + DC.fixes.length;
+  $("#stats").innerHTML = [[18,"sessions"],[insights,"insights"],[QUOTES.length,"quotes"]].map(([v,l])=>`<div class="stat"><b>${v}</b><span>${l}</span></div>`).join("");
+}
+function renderNav(cur){
+  const items = [{id:"overview",n:"·",t:"Overview"}, {id:"about",n:"·",t:"About AfroTech"}, ...SECTIONS, {id:"sessions",n:"·",t:"All sessions"}];
+  $("#nav").innerHTML = items.map(s=>`<button type="button" data-v="${s.id}" aria-current="${s.id===cur}"><span class="n">${s.n}</span>${esc(s.t)}</button>`).join("");
+}
+
+function cards(items){
+  const shown = items.filter(i=>match(i.h+" "+i.b, i.s, i.th));
+  if(!shown.length) return `<p class="empty">Nothing here matches that filter.</p>`;
+  return `<div class="grid">${shown.map(i=>`<article class="card">${i.p?`<span class="pri ${i.p}">${i.p==="now"?"Act now":i.p==="next"?"Next quarter":"Explore later"}</span>`:""}<h3>${esc(i.h)}</h3><p>${esc(i.b)}</p>${chips(i.s)}</article>`).join("")}</div>`;
+}
+function quotes(){
+  const shown = QUOTES.map((q,i)=>({...q,i})).filter(q=>match(q.q,[q.s],q.th));
+  if(!shown.length) return `<p class="empty">Nothing here matches that filter.</p>`;
+  return `<div class="grid">${shown.map(q=>`<figure class="quote" style="margin:0"><blockquote>“${esc(q.q)}”</blockquote><figcaption class="who">${esc(S[q.s].w)}</figcaption><div class="qfoot">${chips([q.s])}<button type="button" class="star" data-q="${q.i}" aria-pressed="${stars.has(q.i)}">${stars.has(q.i)?"★ Starred":"☆ Star"}</button></div></figure>`).join("")}</div>`;
+}
+function dc(){
+  const col = (title, color, list) => {
+    const shown = list.filter(i=>match(i.b,i.s,i.th));
+    return `<section class="col" style="--c:${color}"><h3>${title}</h3>${shown.length?`<ul>${shown.map(i=>`<li>${esc(i.b)}<br><small>${i.s.map(k=>esc(S[k].t)).join(" · ")}</small></li>`).join("")}</ul>`:`<p class="empty">No matches.</p>`}</section>`;
+  };
+  return `<div class="cols3">${col("Concerns","#B4483A",DC.concerns)}${col("Excitement","var(--gold)",DC.excite)}${col("Solutions","var(--accent)",DC.fixes)}</div>`;
+}
+function overview(){
+  const count = {}; Object.keys(THEMES).forEach(k=>count[k]=new Set());
+  SECTIONS.forEach(s=>s.items.forEach(i=>(i.th||[]).forEach(t=>i.s.forEach(x=>count[t].add(x)))));
+  const rows = Object.entries(count).map(([k,v])=>[k,v.size]).sort((a,b)=>b[1]-a[1]);
+  const max = rows[0][1];
+  const top = SECTIONS.find(s=>s.id==="signals").items.filter(i=>i.p==="now").slice(0,4);
+  return `<div class="photos"><figure><img src="team.jpg" alt="Our group in front of the AfroTech letters marking 10 years of AfroTech"><figcaption>The crew at AfroTech</figcaption></figure><figure><img src="sign.jpg" alt="Lit AfroTech marquee sign outside the Houston convention center"><figcaption>Houston, Nov 2026</figcaption></figure></div>
+  <h2>The conference in one view</h2>
+  <p class="lede">The same ideas kept surfacing across very different sessions. The bars show how many of the 18 sessions touched each theme. Click a theme, or use the filters above, to see every related insight.</p>
+  <div class="answer"><b>Bottom line for BI</b>AI rewards teams with clean, governed data and people who can frame problems, judge output and redesign work. Start with one measured pilot, keep humans accountable, and grow the team's roles rather than waiting for the tools to settle.</div>
+  <div class="bars" role="list">${rows.map(([k,v])=>`<div class="bar" role="listitem"><button type="button" class="linkish" data-t="${k}">${THEMES[k]}</button><div class="track"><div class="fill" style="width:${(v/max*100).toFixed(0)}%"></div></div><span class="v">${v}</span></div>`).join("")}</div>
+  <h3 class="sub3">Act now</h3>${cards(top)}
+  <h3 class="sub3">Jump to a question</h3>
+  <div class="grid">${SECTIONS.map(s=>`<button type="button" class="card" data-v="${s.id}" style="text-align:left"><span class="eyebrow" style="margin:0">Question ${s.n}</span><h3>${esc(s.h)}</h3><p style="color:var(--muted)">${esc(s.a.split(". ")[0])}.</p></button>`).join("")}</div>`;
+}
+function about(){
+  const tracks = [
+    {h:"AI, agents and automation",b:"Agentic AI, enterprise agents, small and local models, AI-assisted development.",s:["agentic","agents","edge","pgx","llm","infra"]},
+    {h:"Data and infrastructure",b:"Cloud and data foundations, data quality, edge computing and hybrid infrastructure.",s:["capone","edge","pgx"]},
+    {h:"Responsible AI and policy",b:"Bias, accountability, data centers' community impact and AI civil-rights legislation.",s:["gebru","pressley"]},
+    {h:"Careers and leadership",b:"Future-ready workforces, reskilling, sponsorship, neurodiversity and getting discovered.",s:["ge","career","neuro","linkedin"]},
+    {h:"Founders and products",b:"Building for real community needs, fundraising, traction and scaling a startup.",s:["squire","idea","bet"]},
+    {h:"Culture and community",b:"Ten years of AfroTech, storytelling, media and representation in tech.",s:["founder","elle","bet"]}
+  ];
+  return `<p class="eyebrow">About the event</p><h2>What is AfroTech?</h2>
+  <div class="answer"><b>In one line</b>AfroTech is the world's largest gathering of Black professionals in technology, produced by Blavity Inc. It brings together engineers, founders, executives, investors and early-career talent for a week of sessions, recruiting and networking.</div>
+  <div class="facts">
+    <div class="fact"><b>2016</b><span>First conference, Bay Area, ~650 attendees</span></div>
+    <div class="fact"><b>40,000+</b><span>Attendees at the 2025 Houston conference</span></div>
+    <div class="fact"><b>10th</b><span>Anniversary edition in 2026</span></div>
+    <div class="fact"><b>Nov 2–6</b><span>George R. Brown Convention Center, Houston</span></div>
+  </div>
+  <div class="prose">
+    <p><b>Why it started.</b> In 2016, Blavity co-founders Morgan DeBaun and Jeff Nelson saw that the big tech conferences were full of opportunity that wasn't reaching Black and brown professionals. They launched AfroTech to close that gap, and the first event sold out.</p>
+    <p><b>The goal.</b> Access and representation: connecting Black technologists, founders and leaders with each other, with employers and investors, and with the knowledge to shape where technology goes next. The 2026 edition marks ten years under the theme "A Decade of Innovation. Infinite Impact."</p>
+    <p><b>What it looks like.</b> Multiple stages of keynotes and panels, hands-on AI training, a career and recruiting expo, founder programming and pitch events, and evening community events across Houston.</p>
+  </div>
+  <h3 class="sub3">What was discussed this year</h3>
+  <p class="lede">The 18 sessions I attended clustered into six tracks. Click a session tag to see what it contributed.</p>
+  <div class="about">${tracks.map(t=>`<article class="card"><h3>${esc(t.h)}</h3><p>${esc(t.b)}</p>${chips(t.s)}</article>`).join("")}</div>
+  <p class="srcs">Sources: <a href="https://afrotech.com/afrotech-conference-2026-houston" target="_blank" rel="noopener">AfroTech: Conference 2026</a> · <a href="https://afrotechconference.com/faqs" target="_blank" rel="noopener">AfroTech Conference FAQs</a> · <a href="https://afrotech.com/black-tech-conferences-2026" target="_blank" rel="noopener">AfroTech: Black tech conferences 2026</a> · <a href="https://yespress.io/blavity-inc.md" target="_blank" rel="noopener">Blavity Inc. profile</a></p>`;
+}
+function results(){
+  const label = [filter?S[filter].t:null, theme?THEMES[theme]:null].filter(Boolean).join(" + ");
+  let total = 0, body = "";
+  SECTIONS.forEach(sec=>{
+    let html = "", n = 0;
+    if(sec.id==="quotes"){ n = QUOTES.filter(q=>match(q.q,[q.s],q.th)).length; if(n) html = quotes(); }
+    else if(sec.id==="datacenters"){ n = [...DC.concerns,...DC.excite,...DC.fixes].filter(i=>match(i.b,i.s,i.th)).length; if(n) html = dc(); }
+    else { n = sec.items.filter(i=>match(i.h+" "+i.b,i.s,i.th)).length; if(n) html = cards(sec.items); }
+    if(n){ total += n; body += `<h3 class="sub3"><button type="button" class="linkish" data-v="${sec.id}">${sec.n}. ${esc(sec.t)}</button> <span class="count">${n}</span></h3>${html}`; }
+  });
+  const who = filter ? `<p class="lede">${esc(S[filter].w)} · <a href="${D+S[filter].u}/edit" target="_blank" rel="noopener">Open the full summary</a></p>` : "";
+  return `<p class="eyebrow">Filtered view</p><h2>${esc(label)}</h2>${who}<div class="answer"><b>${total} matching insight${total===1?"":"s"}</b>Everything across all seven questions that matches your filters, grouped by question. Pick a question on the left to see just that one, or clear the filters to return to the overview.</div>${body||'<p class="empty">Nothing matches both filters. Try clearing one.</p>'}`;
+}
+function sessions(){
+  const rows = Object.entries(S).filter(([k,v])=>!filter||k===filter);
+  return `<h2>All sessions</h2><p class="lede">Each links to its full summary in Google Drive. Use the button to see that session's insights across every question.</p>
+  <div class="tablewrap"><table><thead><tr><th>Session</th><th>Speaker</th><th>Day</th><th></th></tr></thead><tbody>${rows.map(([k,v])=>`<tr><td><a href="${D+v.u}/edit" target="_blank" rel="noopener">${esc(v.t)}</a>${k==="ge"?' <span class="pri next">Favorite</span>':""}</td><td>${esc(v.w)}</td><td>${v.d}</td><td><button type="button" class="chip" data-s="${k}">Show insights</button></td></tr>`).join("")}</tbody></table></div>`;
+}
+
+function current(){ const h = location.hash.slice(1); return ["overview","about","sessions",...SECTIONS.map(s=>s.id)].includes(h)?h:"overview"; }
+function render(){
+  const v = current(); renderNav(v);
+  $("#fclear").classList.toggle("hidden",!filter&&!theme);
+  $("#fsess").value = filter||""; $("#fth").value = theme;
+  $("#fsess").classList.toggle("on",!!filter); $("#fth").classList.toggle("on",!!theme);
+  let html;
+  if((filter||theme) && (v==="overview"||v==="about")) html = results();
+  else if(v==="overview") html = overview();
+  else if(v==="sessions") html = sessions();
+  else if(v==="about") html = about();
+  else {
+    const s = SECTIONS.find(x=>x.id===v);
+    html = `<p class="eyebrow">Question ${s.n}</p><h2>${esc(s.h)}</h2><div class="answer"><b>Short answer</b>${esc(s.a)}</div>`;
+    html += v==="quotes" ? quotes() : v==="datacenters" ? dc() : cards(s.items);
+  }
+  $("#view").innerHTML = html;
+}
+
+function sectionText(){
+  const v = current();
+  if(v==="quotes"){
+    const pick = stars.size ? QUOTES.filter((q,i)=>stars.has(i)) : QUOTES;
+    return "Quotes from AfroTech 2026\n\n"+pick.map(q=>`"${q.q}" (${S[q.s].w}, ${S[q.s].t})`).join("\n");
+  }
+  if(v==="about" || ((filter||theme) && v==="overview")) return document.querySelector("#view").innerText;
+  if(v==="datacenters"){
+    const f = (t,l)=>t+"\n"+l.map(i=>"- "+i.b).join("\n");
+    return "AI & data centers (AfroTech 2026)\n\n"+f("Concerns",DC.concerns)+"\n\n"+f("Excitement",DC.excite)+"\n\n"+f("Solutions",DC.fixes);
+  }
+  const s = SECTIONS.find(x=>x.id===v) || SECTIONS.find(x=>x.id==="signals");
+  return `${s.h}\n\n${s.a}\n\n`+s.items.map(i=>`- ${i.h}: ${i.b} [${i.s.map(k=>S[k].t).join("; ")}]`).join("\n");
+}
+function toast(m){ const t=$("#toast"); t.textContent=m; t.classList.add("show"); setTimeout(()=>t.classList.remove("show"),1800); }
+
+document.addEventListener("click", e=>{
+  const nv = e.target.closest("[data-v]"); if(nv){ location.hash = nv.dataset.v; window.scrollTo(0,0); return; }
+  const tb = e.target.closest("[data-t]"); if(tb){ theme = tb.dataset.t; render(); window.scrollTo(0,0); return; }
+  const ch = e.target.closest("[data-s]"); if(ch){ filter = ch.dataset.s; if(current()==="sessions") location.hash="overview"; render(); window.scrollTo(0,0); return; }
+  const st = e.target.closest("[data-q]"); if(st){ const i=+st.dataset.q; stars.has(i)?stars.delete(i):stars.add(i); saveStars(); render(); return; }
+});
+$("#fsess").innerHTML += Object.entries(S).sort((a,b)=>a[1].t.localeCompare(b[1].t)).map(([k,v])=>`<option value="${k}">${esc(v.t)}</option>`).join("");
+$("#fth").innerHTML += Object.entries(THEMES).map(([k,v])=>`<option value="${k}">${esc(v)}</option>`).join("");
+$("#fsess").addEventListener("change",e=>{ filter=e.target.value||null; render(); });
+$("#fth").addEventListener("change",e=>{ theme=e.target.value; render(); });
+$("#fclear").addEventListener("click",()=>{ filter=null; theme=""; render(); });
+$("#copy").addEventListener("click", async()=>{
+  try{ await navigator.clipboard.writeText(sectionText()); toast(current()==="quotes"&&stars.size?"Starred quotes copied":"Section copied"); }
+  catch(err){ toast("Copy was blocked. Select the text and copy it manually."); }
+});
+window.addEventListener("hashchange", render);
+render();
+</script>
+</body>
+</html>
